@@ -87,6 +87,7 @@ async function showAllAppointments() {
     table_tbody.textContent = '';
     response.data.forEach((appointment) => {
       const table_tbody_tr = document.createElement('tr');
+      table_tbody_tr.setAttribute('id', `tr_${appointment.id}`);
       const table_tbody_tr_td_name = document.createElement('td');
       const table_tbody_tr_td_email = document.createElement('td');
       const table_tbody_tr_td_phone = document.createElement('td');
@@ -98,9 +99,14 @@ async function showAllAppointments() {
       const edit_button = document.createElement('button');
       edit_button.className = 'btn btn-outline-warning m-2';
       edit_button.textContent = 'Edit';
+      edit_button.setAttribute('type', 'submit');
+      edit_button.setAttribute('id', `edit_button_${appointment.id}`);
+
       const delete_button = document.createElement('button');
       delete_button.className = 'btn btn-danger m-2';
       delete_button.textContent = 'Delete';
+      delete_button.setAttribute('type', 'submit');
+      delete_button.setAttribute('id', `delete_button_${appointment.id}`);
 
       table_tbody_tr_td_edit.appendChild(edit_button);
       table_tbody_tr_td_delete.appendChild(delete_button);
@@ -137,6 +143,16 @@ async function showAllAppointments() {
 
         submit_button.className = 'btn btn-warning mt-3 mb-3';
         submit_button.textContent = 'Save';
+
+        // Highlight the row and Disable the buttons
+        const the_row = document.querySelector(`#tr_${appointment.id}`);
+        the_row.className = 'table-warning';
+        document
+          .querySelector(`#edit_button_${appointment.id}`)
+          .classList.add('disabled');
+        document
+          .querySelector(`#delete_button_${appointment.id}`)
+          .classList.add('disabled');
       };
 
       delete_button.onclick = () => {
